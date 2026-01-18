@@ -71,7 +71,7 @@ class UserPenaltyService:
             is_flagged = self._flagged_users.get(fingerprint, False)
             
             if is_flagged:
-                with tracer.start_as_current_span("EcoShield_Penalty_Applied") as span:
+                with tracer.start_as_current_span("LLMshield_Penalty_Applied") as span:
                     span.set_attribute("user.fingerprint", fingerprint)
                     span.set_attribute("compression.aggressiveness", self.penalty_compression)
                     span.set_attribute("penalty.reason", "flagged_for_weird_high_cost")
@@ -124,7 +124,7 @@ class UserPenaltyService:
             if avg_cost and token_cost > avg_cost:
                 self._flagged_users[fingerprint] = True
                 
-                with tracer.start_as_current_span("EcoShield_User_Flagged") as span:
+                with tracer.start_as_current_span("LLMshield_User_Flagged") as span:
                     span.set_attribute("user.fingerprint", fingerprint)
                     span.set_attribute("token_cost", token_cost)
                     span.set_attribute("average_token_cost", avg_cost)

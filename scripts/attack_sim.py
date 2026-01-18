@@ -1,11 +1,11 @@
 import requests
 import time
 
-# Your local EcoShield proxy URL
+# Your local LLMshield proxy URL
 PROXY_URL = "http://localhost:8000/v1/chat/completions"
 
 def run_demo():
-    print("🚀 Starting EcoShield AI Defense Demo...")
+    print("🚀 Starting LLMshield AI Defense Demo...")
     print("-" * 50)
 
     # --- SCENARIO 1: THE HAPPY USER ---
@@ -15,11 +15,11 @@ def run_demo():
     }
     
     start = time.time()
-    resp1 = requests.post(PROXY_URL, json=happy_payload).json()
+    resp1 = requests.post(PROXY_URL, json=happy_payload, timeout=60).json()
     duration1 = time.time() - start
     
     print(f"✅ Success. Response: {resp1['choices'][0]['message']['content'][:60]}...")
-    print(f"📊 Stats: Saved {resp1['eco_shield']['tokens_saved']} tokens | Time: {duration1:.2f}s")
+    print(f"📊 Stats: Saved {resp1['llm_shield']['tokens_saved']} tokens | Time: {duration1:.2f}s")
 
     # --- SCENARIO 2: THE ECONOMIC DDoS ATTACK ---
     print("\n" + "!" * 50)
@@ -35,11 +35,11 @@ def run_demo():
     }
     
     start = time.time()
-    resp2 = requests.post(PROXY_URL, json=attack_payload).json()
+    resp2 = requests.post(PROXY_URL, json=attack_payload, timeout=90).json()
     duration2 = time.time() - start
 
-    print(f"\n🛡️  SHIELD ACTIVE: {resp2['eco_shield']['attack_probability']} Attack Probability")
-    print(f"💰 Economic Impact: Prevented {resp2['eco_shield']['tokens_saved']} junk tokens from hitting OpenAI.")
+    print(f"\n🛡️  SHIELD ACTIVE: {resp2['llm_shield']['attack_probability']} Attack Probability")
+    print(f"💰 Economic Impact: Prevented {resp2['llm_shield']['tokens_saved']} junk tokens from hitting Gemini.")
     print(f"🤖 LLM Still Worked: {resp2['choices'][0]['message']['content']}")
     print(f"⏱️  Latency: {duration2:.2f}s (even with 5k extra tokens!)")
     print("-" * 50)

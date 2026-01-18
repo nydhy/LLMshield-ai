@@ -38,7 +38,7 @@ class PromptEvaluator:
         
         # Create classification evaluator with prompt template
         self.evaluator = ClassificationEvaluator(
-            name="ecoshield_ddos_detector",
+            name="llmshield_ddos_detector",
             prompt_template=self._get_evaluation_prompt_template(),
             llm=self.llm,
             choices={
@@ -89,7 +89,7 @@ Important considerations:
                 - reason (str): Brief explanation of the evaluation
         """
         # Create evaluation span for Phoenix tracing
-        with tracer.start_as_current_span("EcoShield_LLM_Evaluator") as span:
+        with tracer.start_as_current_span("LLMshield_LLM_Evaluator") as span:
             span.set_attribute("openinference.span.kind", "CHAIN")
             span.set_attribute("security.layer", "llm_evaluation")
             span.set_attribute("evaluator.model", self.evaluator_model)

@@ -70,7 +70,7 @@ class SieveService:
         Returns:
             Dict with compressed messages, token metrics, and FinOps data
         """
-        with tracer.start_as_current_span("EcoShield_Sieve_Process") as span:
+        with tracer.start_as_current_span("LLMshield_Sieve_Process") as span:
             span.set_attribute("openinference.span.kind", "CHAIN")
             span.set_attribute("security.layer", "semantic_compression")
             

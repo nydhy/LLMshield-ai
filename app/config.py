@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     # These names MUST match the keys in your .env
     gemini_api_key: str
     token_company_key: str
-    phoenix_project_name: str = "EcoShield-AI"
+    phoenix_project_name: str = "LLMshield-AI"
     
     # LLM API configuration
     gemini_model: str = "gemini-2.5-flash-lite"  # Default Gemini model (google-genai SDK format)
