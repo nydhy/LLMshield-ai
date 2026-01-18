@@ -1,5 +1,5 @@
 """
-EcoShield AI Proxy - Enhanced Security Middleware
+LLMshield AI Proxy - Enhanced Security Middleware
 Multi-layer DDoS protection with entropy analysis, LLM evaluation, and adaptive penalties.
 """
 from fastapi import FastAPI, Request, HTTPException
@@ -13,8 +13,7 @@ from app.config import get_settings
 from app.services.sieve import SieveService
 from app.services.evaluator import PromptEvaluator
 from app.services.penalty import UserPenaltyService
-from app.services.detector import is_malicious, is_malicious_simple
-from app.schemas.shield import ShieldRequest
+from app.services.detector import is_malicious
 from app.utils.identity import extract_user_fingerprint
 from app.utils.entropy import calculate_shannon_entropy, classify_by_entropy
 
@@ -34,7 +33,7 @@ tracer_provider = register(
 )
 
 # 3. Initialize FastAPI & Services
-app = FastAPI(title="EcoShield AI Proxy")
+app = FastAPI(title="LLMshield AI Proxy", version="1.0.0")
 
 # 4. Initialize Gemini client (new google-genai SDK)
 gemini_client = genai.Client(api_key=settings.gemini_api_key)
@@ -78,7 +77,7 @@ async def shielded_chat_proxy(request: Request):
     7. Observability: Threat tagging and FinOps metrics in Phoenix
     """
     # Create main request span
-    with tracer.start_as_current_span("EcoShield_Request") as main_span:
+    with tracer.start_as_current_span("LLMshield_Request") as main_span:
         try:
             body = await request.json()
             if not body.get("messages"):
@@ -156,7 +155,7 @@ async def shielded_chat_proxy(request: Request):
             # --- STEP 6: LLM TIE-BREAKER FOR SUSPICIOUS CASES ---
             # If entropy is SUSPICIOUS, use LLM-as-judge for final verdict
             if threat_level == "SUSPICIOUS":
-                with tracer.start_as_current_span("EcoShield_LLM_TieBreaker") as tie_span:
+                with tracer.start_as_current_span("LLMshield_LLM_TieBreaker") as tie_span:
                     tie_span.set_attribute("entropy_score", entropy)
                     tie_span.set_attribute("entropy_range", "5.5-6.5")
                     
@@ -377,7 +376,7 @@ async def shielded_chat_proxy(request: Request):
                     "completion_tokens": completion_tokens,
                     "total_tokens": total_tokens
                 },
-                "eco_shield": {
+                "llm_shield": {
                     "mitigation": "active",
                     "threat_level": threat_level,
                     "entropy_score": round(entropy, 2),
@@ -409,23 +408,7 @@ async def shielded_chat_proxy(request: Request):
 
 @app.get("/")
 def read_root():
-    return {"status": "ecoshield-ai is active 🚀"}
-
-
-@app.post("/shield")
-async def secure_endpoint(request: ShieldRequest):
-    """Legacy endpoint for backward compatibility."""
-    if is_malicious_simple(request.prompt):
-        raise HTTPException(
-            status_code=403, 
-            detail="Security Block: Malicious Prompt Detected"
-        )
-    
-    return {
-        "status": "Safe",
-        "processed_prompt": request.prompt,
-        "note": "This prompt passed all security filters."
-    }
+    return {"status": "llmshield-ai is active 🚀", "service": "LLMshield AI Proxy", "version": "1.0.0"}
 
 
 if __name__ == "__main__":
