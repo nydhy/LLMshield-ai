@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+requests
+google-genai
+arize-phoenix
+arize-phoenix-evals
+opentelemetry-instrumentation-fastapi
+python-dotenv
+pydantic-settings
+cachetools
+scipy
